@@ -78,7 +78,9 @@ class System:
         MuNumDensity = (1.e-6/self.k_bo)*MuMixingRatio*(self.P0/self.T0)           #in cm-3
 
         #Mean molecular mass
-        self.mu = sum(MuMolParamValues*MuNumDensity)/sum(MuNumDensity)
+        print("Overriding mean molecular mass")
+        #self.mu = sum(MuMolParamValues*MuNumDensity)/sum(MuNumDensity)
+        self.mu = 5.34
 
         #Has the data been loaded.
         self.CSDataLoaded = False

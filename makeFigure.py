@@ -56,14 +56,14 @@ for filecounter, fileName in enumerate(allFiles):
     NewWavelength, NewModel = binSpectrum(currentWavelength, currentSpectrum) 
 
     ax[0].plot(NewWavelength, NewModel, label=fileName.split("/")[-1].split("_")[0], color=currentColor)
-    if "CS1" in fileName:
+    if "CS_1" in fileName:
         refSpectrum = NewModel
 ax[0].legend(loc=1, fontsize=8)       
 ax[0].set_xlabel("Wavelength (microns)")   
 ax[0].set_ylabel("Transit Depth [ppm]")
 
 for filecounter, fileName in enumerate(allFiles):
-    if "CS1" in fileName:
+    if "CS_1" in fileName:
         continue
     currentColor = plt.cm.hot(filecounter/len(allFiles))
     dataContent = np.loadtxt(fileName, skiprows=1)
@@ -78,4 +78,5 @@ ax[1].set_ylabel("Model Difference [ppm]")
 ax[1].axhline(0, color='black', linestyle='--', linewidth=3)
 
 plt.tight_layout()
-plt.show()
+plt.savefig("Figures/TOI-270d.png")
+plt.close()

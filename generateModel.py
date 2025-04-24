@@ -86,19 +86,24 @@ StellarParamsDict = ParseStarFile()
 print(PlanetParamsDict)
 print(StellarParamsDict)
 
+
+
 BaseLocation =  "/media/prajwal/LaCie1/TierraCrossSections/Nature_CrossSections"
 
-CurrentSystem = Target.System(PlanetParamsDict, StellarParamsDict, LoadFromFile=False)
-CurrentSystem.LoadCrossSection(BaseLocation, SubFolder="CS_7", CIA=True)
-CurrentSystem.InitiateSystem()
-CurrentSystem.PT_Profile(zStep=0.25, ShowPlot=False)
-print("The mean molecular mass of the atmosphere is given by:", CurrentSystem.mu)
-T1 = TransmissionSpectroscopy(CurrentSystem)
-T1.CalculateTransmission(CurrentSystem)
 
+for CSType in ["CS_1", "CS_5", "CS_6", "CS_7"]:
+        
+    CurrentSystem = Target.System(PlanetParamsDict, StellarParamsDict, LoadFromFile=False)
+    CurrentSystem.LoadCrossSection(BaseLocation, SubFolder=CSType, CIA=True)
+    CurrentSystem.InitiateSystem()
+    CurrentSystem.PT_Profile(zStep=0.25, ShowPlot=False)
+    print("The mean molecular mass of the atmosphere is given by:", CurrentSystem.mu)
+    T1 = TransmissionSpectroscopy(CurrentSystem)
+    T1.CalculateTransmission(CurrentSystem)
 
-np.savetxt("models/CS7_TransmissionModel.txt",np.transpose((CurrentSystem.WavelengthArray, T1.Spectrum)), header='Wavelength (nm) Transmission', comments='')
-#Save the cross-section based on this
+    print("Saved the text.")
+    np.savetxt(f"models/{CSType}_TransmissionModel.txt",np.transpose((CurrentSystem.WavelengthArray, T1.Spectrum)), header='Wavelength (nm) Transmission', comments='')
+    #Save the cross-section based on this
 
 
 plt.figure(figsize=(10, 6))
